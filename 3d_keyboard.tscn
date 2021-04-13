@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/canvas_plane/canvas_plane_v2.gd" type="Script" id=1]
+[ext_resource path="res://addons/virtual_keyboard/keyboard_with_panel.tscn" type="PackedScene" id=2]
+
+[node name="3DKeyboard" type="Spatial"]
+
+[node name="KeyboardPanel" type="Spatial" parent="."]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0 )
+script = ExtResource( 1 )
+translucent = true
+collision_mask = 2
+collision_layer = 2
+
+[node name="KeyboardWithBackground" parent="KeyboardPanel" instance=ExtResource( 2 )]
