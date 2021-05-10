@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/canvas_plane/canvas_plane_v2.gd" type="Script" id=1]
+[ext_resource path="res://addons/canvas_plane/canvas_3d.gd" type="Script" id=1]
 [ext_resource path="res://addons/virtual_keyboard/keyboard_with_panel.tscn" type="PackedScene" id=2]
 
 [node name="3DKeyboard" type="Spatial"]
