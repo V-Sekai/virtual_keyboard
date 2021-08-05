@@ -1,7 +1,7 @@
-tool
+@tool
 extends Control
 
-export(Resource) var layout = null
+@export var layout : Resource = null
 
 signal key_pressed(p_scancode)
 
@@ -23,7 +23,7 @@ func update_buttons() -> void:
 			for button in button_infos.keys():
 				button.set_text(button_infos[button].get_input_string())
 
-func button_string_callback(p_button_info: Reference) -> void:
+func button_string_callback(p_button_info: RefCounted) -> void:
 	match p_button_info.get_button_type():
 		virtual_keyboard_layout_const.VKButton.VKButtonType.VK_BUTTON_UNICODE:
 			var key_string: String = ""
@@ -52,7 +52,7 @@ func button_string_callback(p_button_info: Reference) -> void:
 			pass
 			
 	
-static func create_button(p_owner: Node, p_button_info: Reference) -> Button:
+static func create_button(p_owner: Node, p_button_info: RefCounted) -> Button:
 	var button = Button.new()
 	
 	if p_button_info.get_expand():
@@ -60,7 +60,7 @@ static func create_button(p_owner: Node, p_button_info: Reference) -> Button:
 	else:
 		button.set_h_size_flags(Control.SIZE_FILL)
 	
-	assert(button.connect("pressed", p_owner, "button_string_callback", [p_button_info]) == OK)
+	assert(button.connect("pressed", Callable(p_owner, "button_string_callback"), [p_button_info]) == OK)
 	
 	button.enabled_focus_mode = Control.FOCUS_NONE
 		
@@ -72,7 +72,7 @@ func create_from_layout(p_layout):
 			var row = p_layout.rows[i]
 			var horizontal_layout = HBoxContainer.new()
 			for j in range(0, row.button_count):
-				var button_info: Reference = row.buttons[j]
+				var button_info: RefCounted = row.buttons[j]
 				
 				var button: Button = create_button(self, button_info)
 				button_infos[button] = button_info

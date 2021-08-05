@@ -1,21 +1,30 @@
+@tool
 extends Resource
-tool
 
+class VKButton extends RefCounted:
+	class  VKButtonType :
+		const VK_BUTTON_UNICODE=0
+		const VK_BUTTON_SHIFT=1
+		const VK_BUTTON_BACKSPACE=2
+		const VK_BUTTON_RETURN=3
+		const VK_BUTTON_SYMBOLS=4
 
-class VKButton extends Reference:
-	enum VKButtonType {
-		VK_BUTTON_UNICODE,
-		VK_BUTTON_SHIFT,
-		VK_BUTTON_BACKSPACE,
-		VK_BUTTON_RETURN
-		VK_BUTTON_SYMBOLS
-	}
 	
-	var vk_button_type : int = VKButtonType.VK_BUTTON_UNICODE setget set_button_type, get_button_type
-	var vk_expand : bool = false setget set_expand, get_expand
-	var vk_input_string : String = "" setget set_input_string, get_input_string
-	var vk_shift_input_string : String = "" setget set_shift_input_string, get_shift_input_string
-	var vk_symbol_input_string : String = "" setget set_symbol_input_string, get_symbol_input_string
+	var vk_button_type : int = VKButtonType.VK_BUTTON_UNICODE:
+		set = set_button_type,
+		get =get_button_type
+	var vk_expand : bool = false:
+		set = set_expand,
+		get = get_expand
+	var vk_input_string : String = "":
+		set = set_input_string,
+		get =get_input_string
+	var vk_shift_input_string : String = "":
+		set = set_shift_input_string,
+		get = get_shift_input_string
+	var vk_symbol_input_string : String = "":
+		set = set_symbol_input_string,
+		get = get_symbol_input_string
 	
 	func set_button_type(p_type):
 		vk_button_type = p_type
@@ -54,24 +63,28 @@ class VKButton extends Reference:
 	static func get_button_type_enum_string():
 		return "Unicode,Shift,Backspace,Return,Symbols"
 
-class VKRow extends Reference:
+class VKRow extends RefCounted:
 	var button_count : int = 0
 	var buttons : Array = []
 	
-	func set_button_count(p_count):
-		button_count = p_count
-		if button_count < 0:
-			button_count = 0
-		buttons.resize(button_count)
-	
-		for i in range(0, buttons.size()):
-			if buttons[i] == null:
-				buttons[i] = VKButton.new()
-		
 	func get_button_count():
 		return button_count
 
-var row_count : int = 0 setget set_row_count, get_row_count
+# FIXME: GDScript workaround: This was meant to be a member function but cannot access VKButton.
+func set_row_button_count(p_row, p_count):
+	p_row.button_count = p_count
+	if p_row.button_count < 0:
+		p_row.button_count = 0
+	p_row.buttons.resize(p_row.button_count)
+
+	for i in range(0, p_row.buttons.size()):
+		if p_row.buttons[i] == null:
+			p_row.buttons[i] = VKButton.new()
+
+var row_count : int = 0 :
+	set = set_row_count,
+	get = get_row_count
+
 var rows : Array = []
 
 func set_row_count(p_row_count):
@@ -84,7 +97,7 @@ func set_row_count(p_row_count):
 		if rows[i] == null:
 			rows[i] = VKRow.new()
 			
-	property_list_changed_notify()
+	notify_property_list_changed()
 	
 func get_row_count():
 	return row_count
@@ -102,8 +115,8 @@ func _set(p_property, p_value):
 				if rows.size() >= row_idx and rows[row_idx] is VKRow:
 					if split_property.size() >= 3:
 						if split_property[2] == "button_count":
-								rows[row_idx].set_button_count(p_value)
-								property_list_changed_notify()
+								set_row_button_count(rows[row_idx], p_value)
+								notify_property_list_changed()
 						elif split_property[2] == "buttons":
 							if split_property.size() >= 3:
 								var button_idx = split_property[3].to_int()
