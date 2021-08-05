@@ -26,52 +26,52 @@ class VKButton extends RefCounted:
 		set = set_symbol_input_string,
 		get = get_symbol_input_string
 	
-	func set_button_type(p_type):
+	func set_button_type(p_type: int):
 		vk_button_type = p_type
 		
-	func get_button_type():
+	func get_button_type() -> int:
 		return vk_button_type
 		
-	func set_expand(p_expand):
+	func set_expand(p_expand: bool):
 		vk_expand = p_expand
 		
-	func get_expand():
+	func get_expand() -> bool:
 		return vk_expand
 		
 	# Input String
-	func set_input_string(p_string):
+	func set_input_string(p_string: String):
 		vk_input_string = p_string
 		
-	func get_input_string():
+	func get_input_string() -> String:
 		return vk_input_string
 		
 	# Shift Input String
-	func set_shift_input_string(p_string):
+	func set_shift_input_string(p_string: String):
 		vk_shift_input_string = p_string
 		
-	func get_shift_input_string():
+	func get_shift_input_string() -> String:
 		return vk_shift_input_string
 		
 		
 	# Symbol Input String
-	func set_symbol_input_string(p_string):
+	func set_symbol_input_string(p_string: String):
 		vk_symbol_input_string = p_string
 		
-	func get_symbol_input_string():
+	func get_symbol_input_string() -> String:
 		return vk_symbol_input_string
 	
-	static func get_button_type_enum_string():
+	static func get_button_type_enum_string() -> String:
 		return "Unicode,Shift,Backspace,Return,Symbols"
 
 class VKRow extends RefCounted:
 	var button_count : int = 0
 	var buttons : Array = []
 	
-	func get_button_count():
+	func get_button_count() -> int:
 		return button_count
 
 # FIXME: GDScript workaround: This was meant to be a member function but cannot access VKButton.
-func set_row_button_count(p_row, p_count):
+func set_row_button_count(p_row: VKRow, p_count: int) -> void:
 	p_row.button_count = p_count
 	if p_row.button_count < 0:
 		p_row.button_count = 0
@@ -87,7 +87,7 @@ var row_count : int = 0 :
 
 var rows : Array = []
 
-func set_row_count(p_row_count):
+func set_row_count(p_row_count: int) -> void:
 	row_count = p_row_count
 	if row_count < 0:
 		row_count = 0
@@ -99,10 +99,11 @@ func set_row_count(p_row_count):
 			
 	notify_property_list_changed()
 	
-func get_row_count():
+func get_row_count() -> int:
 	return row_count
 
-func _set(p_property, p_value):
+func _set(p_property_sn: StringName, p_value: Variant) -> void:
+	var p_property: String = str(p_property_sn)
 	var split_property = p_property.split("/", -1)
 	if split_property.size() > 0:
 		if (split_property[0] == "row_count"):
@@ -132,8 +133,9 @@ func _set(p_property, p_value):
 											rows[row_idx].buttons[button_idx].set_shift_input_string(p_value)
 										if split_property[4] == "symbol_input_string":
 											rows[row_idx].buttons[button_idx].set_symbol_input_string(p_value)
-											
-func _get(p_property):
+
+func _get(p_property_sn: StringName) -> Variant:
+	var p_property: String = str(p_property_sn)
 	var split_property = p_property.split("/", -1)
 	if split_property.size() > 0:
 		if (split_property[0] == "row_count"):
@@ -162,8 +164,9 @@ func _get(p_property):
 											return rows[row_idx].buttons[button_idx].get_shift_input_string()
 										if split_property[4] == "symbol_input_string":
 											return rows[row_idx].buttons[button_idx].get_symbol_input_string()
+	return null
 											
-func _get_property_list():
+func _get_property_list() -> Array:
 	var property_list = []
 	
 	property_list.push_back({"name":"row_count", "type": TYPE_INT, "hint":PROPERTY_HINT_NONE})

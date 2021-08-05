@@ -62,7 +62,7 @@ static func create_button(p_owner: Node, p_button_info: RefCounted) -> Button:
 	
 	assert(button.connect("pressed", Callable(p_owner, "button_string_callback"), [p_button_info]) == OK)
 	
-	button.enabled_focus_mode = Control.FOCUS_NONE
+	button.focus_mode = Control.FOCUS_NONE
 		
 	return button
 
