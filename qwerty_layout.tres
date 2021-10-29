@@ -1,16 +1,14 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bv21mfplf4jnb"]
 
-[ext_resource path="res://addons/virtual_keyboard/virtual_keyboard_layout.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/virtual_keyboard/virtual_keyboard_layout.gd" id="1"]
 
-[sub_resource type="ImageTexture" id=1]
-flags = 4
-flags = 4
-size = Vector2( 32, 32 )
+[sub_resource type="ImageTexture" id="ImageTexture_5bqlo"]
+size = Vector2(32, 32)
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 __meta__ = {
-"_editor_icon": SubResource( 1 )
+"_editor_icon": SubResource( "ImageTexture_5bqlo" )
 }
 row_count = 5
 rows/0/button_count = 13

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bs8kd3mbhfhtx"]
 
 [ext_resource type="Script" path="res://addons/virtual_keyboard/virtual_keyboard.gd" id="1"]
-[ext_resource type="Resource" path="res://addons/virtual_keyboard/qwerty_layout.tres" id="2"]
+[ext_resource type="Resource" uid="uid://bv21mfplf4jnb" path="res://addons/virtual_keyboard/qwerty_layout.tres" id="2"]
 
 [node name="VirtualKeyboard" type="VBoxContainer"]
 anchor_right = 1.0
